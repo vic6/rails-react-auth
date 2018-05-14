@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Link, Redirect, Route} from 'react-router-dom';
+import Auth from './modules/Auth';
 
 class App extends Component {
   render() {
