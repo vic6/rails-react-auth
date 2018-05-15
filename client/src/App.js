@@ -4,6 +4,7 @@ import './App.css';
 import Auth from './modules/Auth';
 import CharacterList from './components/CharacterList';
 import RegisterForm from './components/RegisterForm';
+import LoginForm from './components/LoginForm';
 
 class App extends Component {
   state = {
@@ -23,6 +24,26 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res);
+        Auth.authenticateToken(res.token);
+        this.setState({ auth: Auth.isUserAuthenticated() });
+      })
+      .catch(err => console.log(err));
+  };
+
+  handleLogin = (event, data) => {
+    console.log('hi');
+    event.preventDefault();
+    fetch('/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
         Auth.authenticateToken(res.token);
         this.setState({ auth: Auth.isUserAuthenticated() });
       })
@@ -39,6 +60,7 @@ class App extends Component {
             path="/register"
             render={() => <RegisterForm handleRegisterSubmit={this.handleRegisterSubmit} />}
           />
+          <Route exact path="/login" render={() => <LoginForm handleLogin={this.handleLogin} />} />
         </div>
       </Router>
     );
