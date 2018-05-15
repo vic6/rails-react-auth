@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Link, Redirect, Route } from 'react-router-dom
 import './App.css';
 import Auth from './modules/Auth';
 import CharacterList from './components/CharacterList';
-import RegisterForm from './components/RegisterForm';
+import Dashboard from './components/Dashboard';
 import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 
 class App extends Component {
   state = {
@@ -32,7 +33,6 @@ class App extends Component {
   };
 
   handleLogin = (event, data) => {
-    console.log('hi');
     event.preventDefault();
     fetch('/login', {
       method: 'POST',
@@ -54,13 +54,40 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
+          <div className='nav'>
+            <Link to='/login'>Login</Link>
+            <Link to='/register'>Register</Link>
+            <Link to='/dash'>Dashboard</Link>
+            <Link to='/characters'>All charaters</Link>
+          </div>
           <Route exact path="/characters" render={() => <CharacterList />} />
           <Route
             exact
             path="/register"
-            render={() => <RegisterForm handleRegisterSubmit={this.handleRegisterSubmit} />}
+            render={() =>
+              this.state.auth ? (
+                <Redirect to="/dash" />
+              ) : (
+                <RegisterForm handleRegisterSubmit={this.handleRegisterSubmit} />
+              )
+            }
           />
-          <Route exact path="/login" render={() => <LoginForm handleLogin={this.handleLogin} />} />
+          <Route
+            exact
+            path="/login"
+            render={() =>
+              this.state.auth ? (
+                <Redirect to="/dash" />
+              ) : (
+                <LoginForm handleLogin={this.handleLogin} />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/dash"
+            render={() => (this.state.auth ? <Dashboard /> : <Redirect to="/login" />)}
+          />
         </div>
       </Router>
     );

@@ -18,7 +18,7 @@ export default class RegisterForm extends Component {
           <input type='text' name='name' value={name} placeholder='Name'/>
           <input type='text' name='username' value={username} placeholder='Username'/>
           <input type='email' name='email' value={email} placeholder='email'/>
-          <input type='password' name='password' value={password} placeholder='Name'/>
+          <input type='password' name='password' value={password} placeholder='Password'/>
           <input type='submit' value='Register'/>
         </form>
       </div>
