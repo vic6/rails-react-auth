@@ -6,7 +6,8 @@
   ],
   "rules": {
    "react/prop-types": 0,
-   "react/prefer-stateless-function": "off"
+   "react/prefer-stateless-function": "off",
+   "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
  },
   "plugins": [
     "prettier"
@@ -26,8 +27,5 @@
   },
   "globals": {
     "DEBUG": false
-  },
-  "rules": {
-  "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-}
+  }
 }
