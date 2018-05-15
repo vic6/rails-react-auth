@@ -50,15 +50,31 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  handleLogout = () => {
+    fetch('/logout', {
+      method: 'DELETE',
+      headers: {
+        token: Auth.getToken(),
+        Authorization: `Token ${Auth.getToken()}`
+      }
+    })
+      .then(() => {
+        Auth.deauthenticateToken();
+        this.setState({ auth: Auth.isUserAuthenticated() });
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     return (
       <Router>
         <div className="App">
-          <div className='nav'>
-            <Link to='/login'>Login</Link>
-            <Link to='/register'>Register</Link>
-            <Link to='/dash'>Dashboard</Link>
-            <Link to='/characters'>All charaters</Link>
+          <div className="nav">
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+            <Link to="/dash">Dashboard</Link>
+            <Link to="/characters">All charaters</Link>
+            <span role='logout' onClick={this.handleLogout}>Logout</span>
           </div>
           <Route exact path="/characters" render={() => <CharacterList />} />
           <Route
