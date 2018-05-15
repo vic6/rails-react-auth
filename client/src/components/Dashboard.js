@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
+import AddCharacterForm from './AddCharacterForm';
 import Auth from '../modules/Auth';
 
 export default class Dashboard extends Component {
   state = { myCharacters: null, loaded: false };
 
   componentDidMount() {
+    this.getUserCharacters();
+  }
+
+  getUserCharacters = () => {
     fetch('/profile', {
       method: 'GET',
       headers: {
@@ -16,9 +21,32 @@ export default class Dashboard extends Component {
       .then(res => {
         this.setState({ myCharacters: res.characters, loaded: true });
         console.log(res);
-        console.log(this.state);
       })
       .catch(err => console.log(err));
+  };
+
+  handleAddCharacter = (event, data, cb) => {
+    event.preventDefault()
+    fetch('/characters', {
+      method: 'POST',
+      body: JSON.stringify({
+        character: data
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        token: Auth.getToken(),
+        Authorization: `Token ${Auth.getToken()}`
+      }
+    }).then(res => {
+      console.log(res);
+      this.getUserCharacters();
+      cb();
+    });
+  };
+
+  resetForm = (event) => {
+    event.preventDefault();
+    this.setState({name: '', description: ''})
   }
 
   renderCharacters = () =>
@@ -30,6 +58,11 @@ export default class Dashboard extends Component {
     ));
   render() {
     const { loaded } = this.state;
-    return <div className="characters">{loaded ? this.renderCharacters() : <p>...Loading</p>}</div>;
+    return (
+      <div className="characters">
+        <AddCharacterForm handleAddCharacter={this.handleAddCharacter} resetForm={this.resetForm} />
+        {loaded ? this.renderCharacters() : <p>...Loading</p>}
+      </div>
+    );
   }
 }

@@ -65,6 +65,7 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+
   render() {
     return (
       <Router>
@@ -74,7 +75,9 @@ class App extends Component {
             <Link to="/register">Register</Link>
             <Link to="/dash">Dashboard</Link>
             <Link to="/characters">All charaters</Link>
-            <span role='logout' onClick={this.handleLogout}>Logout</span>
+            <span role="logout" onClick={this.handleLogout}>
+              Logout
+            </span>
           </div>
           <Route exact path="/characters" render={() => <CharacterList />} />
           <Route
@@ -102,7 +105,13 @@ class App extends Component {
           <Route
             exact
             path="/dash"
-            render={() => (this.state.auth ? <Dashboard /> : <Redirect to="/login" />)}
+            render={() =>
+              this.state.auth ? (
+                <Dashboard handleNewCharacterSubmit={this.handleNewCharacterSubmit} />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
           />
         </div>
       </Router>

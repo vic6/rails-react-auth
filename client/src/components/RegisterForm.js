@@ -9,6 +9,7 @@ export default class RegisterForm extends Component {
       [name]: value
     })
   }
+
   render() {
     const { name, username, email, password } = this.state;
 
