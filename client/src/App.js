@@ -25,7 +25,6 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         Auth.authenticateToken(res.token);
         this.setState({ auth: Auth.isUserAuthenticated() });
       })
@@ -43,7 +42,6 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         Auth.authenticateToken(res.token);
         this.setState({ auth: Auth.isUserAuthenticated() });
       })
@@ -65,7 +63,6 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-
   render() {
     return (
       <Router>
@@ -75,9 +72,7 @@ class App extends Component {
             <Link to="/register">Register</Link>
             <Link to="/dash">Dashboard</Link>
             <Link to="/characters">All charaters</Link>
-            <span role="logout" onClick={this.handleLogout}>
-              Logout
-            </span>
+            <Link to='#' onClick={this.handleLogout}>Logout</Link>
           </div>
           <Route exact path="/characters" render={() => <CharacterList />} />
           <Route

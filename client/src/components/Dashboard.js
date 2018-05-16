@@ -20,13 +20,12 @@ export default class Dashboard extends Component {
       .then(res => res.json())
       .then(res => {
         this.setState({ myCharacters: res.characters, loaded: true });
-        console.log(res);
       })
       .catch(err => console.log(err));
   };
 
   handleAddCharacter = (event, data, cb) => {
-    event.preventDefault()
+    event.preventDefault();
     fetch('/characters', {
       method: 'POST',
       body: JSON.stringify({
@@ -37,17 +36,16 @@ export default class Dashboard extends Component {
         token: Auth.getToken(),
         Authorization: `Token ${Auth.getToken()}`
       }
-    }).then(res => {
-      console.log(res);
+    }).then(() => {
       this.getUserCharacters();
       cb();
     });
   };
 
-  resetForm = (event) => {
+  resetForm = event => {
     event.preventDefault();
-    this.setState({name: '', description: ''})
-  }
+    this.setState({ name: '', description: '' });
+  };
 
   renderCharacters = () =>
     this.state.myCharacters.map(character => (
@@ -56,6 +54,7 @@ export default class Dashboard extends Component {
         <p>{character.description}</p>
       </div>
     ));
+
   render() {
     const { loaded } = this.state;
     return (
